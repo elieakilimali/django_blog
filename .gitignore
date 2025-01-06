@@ -1,5 +1,7 @@
-env
+# Virtual environement
+*.pyc
 __pycache__/
 db.sqlite3
-*.log
 *.env
+*.log
+.DS_Store

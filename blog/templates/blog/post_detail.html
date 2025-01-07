@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl">{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+<img src="{{ post.image.url }}" alt="{{ post.title }}">
+<small>Publié le {{ post.created_at|date:"d M Y" }}</small>
+<a href="{% url 'post_edit' slug=post.slug %}" class="text-blue-500">Modifier</a>
+<a href="{% url 'post_delete' slug=post.slug %}" class="text-red-500">Supprimer</a>
+
+<h3 class="mt-6">Commentaires :</h3>
+<form method="post" action="{% url 'comment_create' slug=post.slug %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ajouter un commentaire</button>
+</form>
+{% endblock %}

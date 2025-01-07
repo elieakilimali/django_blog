@@ -14,4 +14,3 @@ urlpatterns = [
 ]
 
 
-# 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

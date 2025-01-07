@@ -12,8 +12,3 @@ urlpatterns = [
     path("post/<slug:slug>/delete/",PostDeleteView.as_view(), name="post_delete")
 
 ]
-<<<<<<< HEAD
-=======
-
-
->>>>>>> feature/setup_project

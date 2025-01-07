@@ -12,6 +12,3 @@ urlpatterns = [
     path("post/<slug:slug>/delete/",PostDeleteView.as_view(), name="post_delete")
 
 ]
-
-
-# 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

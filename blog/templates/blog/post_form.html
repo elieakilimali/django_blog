@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Créer ou Modifier un Article{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">Créer ou Modifier un Article</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Créer le post</button>
+</form>
+
+{% endblock %}
+

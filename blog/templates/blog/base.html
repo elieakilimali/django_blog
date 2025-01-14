@@ -1,18 +1,29 @@
-<!-- blog/templates/blog/base.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Blog{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon Blog{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
 </head>
-<body>
-    <nav class="p-4 bg-blue-600 text-white">
-        <a href="{% url 'post_list' %}">Accueil</a>
-    </nav>
-    <div class="container mx-auto p-4">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <header class="bg-blue-600 text-white p-4">
+        <nav class="container mx-auto flex justify-between">
+            <a href="{% url 'home' %}" class="text-2xl font-bold">Mon Blog</a>
+            <ul class="flex space-x-4">
+                <li><a href="{% url 'post_list' %}">Articles</a></li>
+                <li><a href="{% url 'post_create' %}">Créer un article</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto py-8">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
+
+    <footer class="bg-blue-600 text-white text-center p-4">
+        <p>&copy; 2025 Mon Blog. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>

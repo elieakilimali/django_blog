@@ -1,13 +1,26 @@
-{% extends "blog/base.html" %}
-{% block title %}Liste des articles{% endblock %}
+{% extends 'blog/base.html' %}
+
+{% block title %}Liste des Articles{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl">Articles</h1>
-{% for post in posts %}
-    <div class="mt-4 p-4 border">
-        <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
-        <p>{{ post.content|truncatewords:20 }}</p>
-        <small>{{ post.created_at|date:"d M Y" }}</small>
-    </div>
-{% endfor %}
+<h1 class="text-3xl font-bold mb-4">Tous les Articles</h1>
+
+{% if posts %}
+    <ul class="space-y-4">
+        {% for post in posts %}
+            <li class="border-b pb-4">
+                <a href="{% url 'post_detail' post.pk %}" class="text-blue-500 font-semibold hover:underline">{{ post.title }}</a>
+                <p class="text-sm text-gray-500">Publié le {{ post.created_at|date:"d M Y" }} - Statut: 
+                    {% if post.status == 'P' %}
+                        <span class="text-green-500">Publié</span>
+                    {% else %}
+                        <span class="text-yellow-500">Brouillon</span>
+                    {% endif %}
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun article disponible pour le moment.</p>
+{% endif %}
 {% endblock %}

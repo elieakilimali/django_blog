@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.models import Post, Category, Comment, Profile
+from .models import Post, Category, Comment, Profile
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
@@ -7,8 +7,8 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'created_at', 'updated_at', 'published', 'author', 'category')
-    list_filter = ('published', 'created_at', 'category')
+    list_display = ('title', 'slug', 'created_at', 'updated_at', 'status', 'author', 'category')
+    list_filter = ('status', 'created_at', 'category')
     search_fields = ('title', 'content', 'author__username', 'category__name')
     prepopulated_fields = {'slug': ('title',)} 
     ordering = ('-created_at',)

@@ -4,11 +4,17 @@ from .views.comment_views import CommentCreateView
 from .views.base import HomePageView
 
 urlpatterns = [
-    path("",HomePageView.as_view(), name="home"),
-    path("post",PostListView.as_view(), name="post_list"),
-    path ("post/<slug:slug>/",PostDetailView.as_view(), name="post_detail"),
-    path("post/new/",PostCreateView.as_view(),name="post_create"),
-    path("post/<slug:slug>/edit/",PostUpdateView.as_view(), name="post_edit"),
-    path("post/<slug:slug>/delete/",PostDeleteView.as_view(), name="post_delete")
+    # Page d'accueil
+    path('', HomePageView.as_view(), name='home'),
 
+    # Articles
+    path('posts/', PostListView.as_view(), name='post_list'),
+    path('posts/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    path('posts/new/', PostCreateView.as_view(), name='post_create'),
+    path('posts/<int:pk>/edit/', PostUpdateView.as_view(), name='post_update'),
+    path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
+
+    # Commentaires
+    # path('posts/<int:pk>/comment/', CommentCreateView.as_view(), name='comment_create'),
+    path('post/<int:pk>/comment/new/', CommentCreateView.as_view(), name='comment_create'),
 ]

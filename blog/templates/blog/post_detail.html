@@ -1,18 +1,43 @@
-{% extends "blog/base.html" %}
+{% extends 'blog/base.html' %}
+
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl">{{ post.title }}</h1>
-<p>{{ post.content }}</p>
-<img src="{{ post.image.url }}" alt="{{ post.title }}">
-<small>Publié le {{ post.created_at|date:"d M Y" }}</small>
-<a href="{% url 'post_edit' slug=post.slug %}" class="text-blue-500">Modifier</a>
-<a href="{% url 'post_delete' slug=post.slug %}" class="text-red-500">Supprimer</a>
+<h1 class="text-3xl font-bold mb-4">{{ post.title }}</h1>
+<p><strong>Auteur :</strong> {{ post.author.username }}</p>
+<p><strong>Publié le :</strong> {{ post.created_at|date:"d M Y" }}</p>
 
-<h3 class="mt-6">Commentaires :</h3>
-<form method="post" action="{% url 'comment_create' slug=post.slug %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Ajouter un commentaire</button>
-</form>
+{% if post.image %}
+    <img src="{{ post.image.url }}" alt="Image de {{ post.title }}" class="max-w-full h-auto my-4">
+{% endif %}
+
+<p>{{ post.content }}</p>
+
+<hr class="my-6">
+
+<!-- Modifier et supprimer -->
+<div class="flex space-x-4">
+    <a href="{% url 'post_update' post.pk %}" class="text-green-500 hover:underline">Modifier</a> |
+    <a href="{% url 'post_delete' post.pk %}" class="text-red-500 hover:underline" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</a>
+</div>
+
+<hr class="my-6">
+
+<h3 class="text-2xl font-semibold">Commentaires :</h3>
+
+{% for comment in post.comments.all %}
+    <div class="my-4 p-4 bg-gray-100 rounded-md">
+        <p><strong>{{ comment.user.username }}</strong> <span class="text-sm text-gray-500">Publié le {{ comment.created_at|date:"d M Y" }}</span></p>
+        <p>{{ comment.content }}</p>
+    </div>
+{% empty %}
+    <p>Aucun commentaire pour le moment.</p>
+{% endfor %}
+
+{% if request.user.is_authenticated %}
+    <div class="my-4">
+        <a href="{% url 'comment_create' post.pk %}" class="text-blue-500 hover:underline">Ajouter un commentaire</a>
+    </div>
+{% endif %}
+
 {% endblock %}

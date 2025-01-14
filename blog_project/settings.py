@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "core",
 ]
 
+AUTH_USER_MODEL = 'blog.CustomUser'
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -127,8 +129,11 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+import os
+
+# Ajoutez ces lignes si elles ne sont pas déjà présentes
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type
@@ -137,3 +142,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'article_list'
+LOGOUT_REDIRECT_URL = 'login'

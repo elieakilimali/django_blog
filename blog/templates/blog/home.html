@@ -1,0 +1,11 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold">Bienvenue sur Mon Blog</h1>
+<p>Découvrez nos derniers articles ci-dessous ou créez le vôtre.</p>
+<a href="{% url 'post_list' %}" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">
+    Voir les articles
+</a>
+{% endblock %}

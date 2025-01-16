@@ -13,8 +13,10 @@ class PostListView(ListView):
     ordering = ["-created_at"]
 
     def get_queryset(self):
-        """Filtrer uniquement les articles publiés."""
-        return Post.objects.filter(published=True)
+
+        if self.request.user.is_authenticated and self.request.user.is_superuser:
+            return Post.objects.all()  # Les super utilisateurs voient tous les articles
+        return Post.objects.filter(status=Post.PUBLISHED)  # Les autres utilisateurs voient uniquement les articles publiés
 
 
 class PostDetailView(DetailView):
@@ -34,6 +36,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         """Associe automatiquement l'auteur connecté et gère l'image."""
         post = form.save(commit=False)
         post.author = self.request.user
+        post.status = Post.PUBLISHED 
         post.save()
         return super().form_valid(form)
 

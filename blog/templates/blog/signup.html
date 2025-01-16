@@ -1,0 +1,12 @@
+<!-- templates/blog/signup.html -->
+{% extends 'blog/base.html'%}
+
+{% block content %}
+  <h2>Inscription</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">S'inscrire</button>
+  </form>
+  <p>Déjà inscrit ? <a href="{% url 'login' %}">Se connecter</a></p>
+{% endblock %}

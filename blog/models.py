@@ -2,20 +2,20 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from core.models import BaseModel
-
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
+
+# Modèle CustomUser
 class CustomUser(AbstractUser):
-    bio = models.TextField(blank=True)
+    bio = models.TextField(blank=True, null=True)
     birthdate = models.DateField(null=True, blank=True)
     profile_image = models.ImageField(upload_to="profiles/", blank=True, null=True)
     is_author = models.BooleanField(default=False)
 
 
-
-# Modèle de Catégorie
+# Modèle Category
 class Category(models.Model):
-    """Modèle de catégorie pour classer les articles."""
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     slug = models.SlugField(unique=True, blank=True)
@@ -29,7 +29,7 @@ class Category(models.Model):
         return self.name
 
 
-# Modèle de Post
+# Modèle Post
 class Post(BaseModel):
     DRAFT = 'D'
     PUBLISHED = 'P'
@@ -45,7 +45,7 @@ class Post(BaseModel):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='posts')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
     image = models.ImageField(upload_to='images/', null=True, blank=True)
 
@@ -72,11 +72,10 @@ class Post(BaseModel):
         return self.status == self.PUBLISHED
 
 
-# Modèle de Commentaire
+# Modèle Comment
 class Comment(models.Model):
-    """Modèle de commentaire associé à un article."""
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -85,15 +84,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username} a commenté {self.post.title}"
-
-
-# # Modèle de Profil Utilisateur (facultatif si CustomUser est utilisé)
-class Profile(models.Model):
-    """Profil utilisateur supplémentaire."""
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
-    bio = models.TextField(blank=True)
-    birthdate = models.DateField(null=True, blank=True)
-    image = models.ImageField(upload_to="profiles/", null=True, blank=True)
-
-    def __str__(self):
-        return f"Profil de {self.user.username}"

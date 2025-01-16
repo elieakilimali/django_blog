@@ -1,0 +1,8 @@
+<!-- templates/blog/logout.html -->
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <h2>Déconnexion</h2>
+  <p>Vous avez été déconnecté avec succès.</p>
+  <a href="{% url 'login' %}">Se reconnecter</a>
+{% endblock %}
